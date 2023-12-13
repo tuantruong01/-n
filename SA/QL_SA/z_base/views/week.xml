@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="tigo_week_tree">
+            <field name="name">Tuần Trong Năm</field>
+            <field name="model">tigo.week</field>
+            <field name="arch" type="xml">
+                <tree string="Tuần Trong Năm">
+                    <field name="name"/>
+                    <field name="begin"/>
+                    <field name="end"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="week_form">
+            <field name="name">Tuần Trong Năm</field>
+            <field name="model">tigo.week</field>
+            <field name="arch" type="xml">
+                <form string="Tuần Trong Năm">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="begin"/>
+                                <field name="end" force_save="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="act_week_id" model="ir.actions.act_window">
+            <field name="name">Tuần Trong Năm</field>
+            <field name="res_model">tigo.week</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+        </record>
+    </data>
+</odoo>

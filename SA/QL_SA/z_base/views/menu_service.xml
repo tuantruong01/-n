@@ -1,0 +1,181 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="dish_service_tree_views">
+            <field name="name">Menu</field>
+            <field name="model">tigo.dish</field>
+            <field name="arch" type="xml">
+                <tree string="Thực Đơn Dịch Vụ Ngoài">
+                    <field name="code_dish"/>
+                    <field name="name"/>
+                    <field name="type_food"/>
+                    <field name="price_total"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="dish_service_form">
+            <field name="name">Menu</field>
+            <field name="model">tigo.dish</field>
+            <field name="arch" type="xml">
+                <form string="Món Ăn">
+                    <sheet>
+                        <field name="img" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <label for="name" string="Tên đồ uống" attrs="{'invisible': [('type_food','!=','drink')]}"/>
+                            <label for="name" string="Tên đồ ăn" attrs="{'invisible': [('type_food','=','drink')]}"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code_dish"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="type_service"/>
+                                <field name="type_food"
+                                       attrs="{'readonly': [('type_service','=','service')]}"/>
+                            </group>
+                            <group>
+                                <field name="type_room"
+                                       attrs="{'invisible': [('type_service','=','internal')], 'required': [('type_service','in',('service', 'all'))]}"
+                                       widget="radio" options='{"horizontal": 1}'/>
+                                <label for="wage"
+                                       attrs="{'invisible': [('type_food','=','drink')], 'required': [('type_service','=','service')]}"/>
+                                <div class="o_row"
+                                     attrs="{'invisible': [('type_food','=','drink')], 'required': [('type_service','=','service')]}">
+                                    <field name="wage" class="oe_inline"/>
+                                    <span>VNĐ</span>
+                                </div>
+                                <field name="ingredient_ids" widget="many2many_tags"
+                                       attrs="{'required': [('type_food','=','eat')]}"/>
+                                <label for="price_total"/>
+                                <div class="o_row">
+                                    <field name="price_total" force_save="1" class="oe_inline"
+                                           attrs="{'readonly': [('type_food','!=','drink')]}"/>
+                                    <span>VNĐ</span>
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="dish_service_kanban" model="ir.ui.view">
+            <field name="name">Thực Đơn Dịch Vụ Ngoài</field>
+            <field name="model">tigo.dish</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="price_total"/>
+                    <field name="img"/>
+                    <field name="id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="o_kanban_image mr-1">
+                                    <img t-att-src="kanban_image('tigo.dish', 'img', record.id.raw_value)"
+                                         alt="Món Ăn" class="o_image_64_contain"/>
+                                </div>
+                                <div>
+                                    <field name="name"/>
+                                    <div t-if="record.type_service.value" class="text-muted">
+                                        [<field name="type_service"/>]
+                                    </div>
+                                    <div name="product_lst_price" class="mt-1">
+                                        Giá:
+                                        <field name="price_total" widget="monetary"
+                                               options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record id="action_dish_service_models" model="ir.actions.act_window">
+            <field name="name">Thực Đơn Dịch Vụ Ngoài</field>
+            <field name="res_model">tigo.dish</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="dish_service_kanban"/>
+            <field name="domain">[("type_service", 'in', ('service', 'all'))]</field>
+            <field name="context">{'default_type_service': 'service'}</field>
+        </record>
+
+        <record model="ir.ui.view" id="type_food_tree_views">
+            <field name="name">Đồ uống</field>
+            <field name="model">tigo.dish</field>
+            <field name="arch" type="xml">
+                <tree string="Đồ uống">
+                    <field name="code_dish"/>
+                    <field name="name"/>
+                    <field name="type_food"/>
+                    <field name="price_total"/>
+                </tree>
+            </field>
+        </record>
+        <record id="dish_inherit_form_view" model="ir.ui.view">
+            <field name="name">Đồ Uống</field>
+            <field name="model">tigo.dish</field>
+            <field name="inherit_id" ref="z_base.dish_service_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type_food']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="action_type_food_drink_models" model="ir.actions.act_window">
+            <field name="name">Đồ uống</field>
+            <field name="res_model">tigo.dish</field>
+            <field name="view_id" ref="dish_service_kanban"/>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[("type_service", 'in', ('service', 'all')),("type_food", '=', 'drink')]</field>
+            <field name="context">{'default_type_food': 'drink', 'default_type_service': 'service'}</field>
+        </record>
+        <record model="ir.ui.view" id="type_food_eat_tree_views">
+            <field name="name">Đồ ăn</field>
+            <field name="model">tigo.dish</field>
+            <field name="arch" type="xml">
+                <tree string="Đồ ăn">
+                    <field name="code_dish"/>
+                    <field name="name"/>
+                    <field name="type_food"/>
+                    <field name="price_total"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="type_eat_form">
+            <field name="name">Đồ ăn</field>
+            <field name="model">tigo.dish</field>
+            <field name="arch" type="xml">
+                <form string="Đồ ăn">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code_dish"/>
+                                <field name="name"/>
+                                <field name="type_service"/>
+                                <field name="type_food"/>
+                            </group>
+                            <group>
+                                <field name="wage"/>
+                                <field name="ingredient_ids" widget="many2many_tags"
+                                       attrs="{'invisible': [('type_food','=','drink')]}"/>
+                                <field name="price_total" force_save="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_type_food_eat_models" model="ir.actions.act_window">
+            <field name="name">Đồ ăn</field>
+            <field name="res_model">tigo.dish</field>
+            <field name="view_id" ref="dish_service_kanban"/>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[("type_service", 'in', ('service', 'all')),("type_food", '=', 'eat')]</field>
+            <field name="context">{'default_type_food': 'eat', 'default_type_service': 'service'}</field>
+        </record>
+    </data>
+</odoo>
+

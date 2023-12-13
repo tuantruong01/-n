@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="report_qty_department" model="ir.actions.report">
+        <field name="name">Số lượng suất ăn đã đăng ký theo phòng ban</field>
+        <field name="model">popup.report.qty.department</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">report_qty_department</field>
+        <field name="report_file">report_qty_department</field>
+    </record>
+</odoo>

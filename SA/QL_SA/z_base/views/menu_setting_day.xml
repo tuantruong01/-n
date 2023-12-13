@@ -1,0 +1,86 @@
+<odoo>
+    <data>
+        <!--Cấu Hình Thực Đơn Theo Ngày-->
+        <record model="ir.ui.view" id="menu_day_tree">
+            <field name="name">Thực Đơn Ngày</field>
+            <field name="model">tigo.menu.setting</field>
+            <field name="arch" type="xml">
+                <tree string="Thực Đơn Ngày">
+                    <field name="name"/>
+                    <field name="menu_ids" widget="many2many_tags"/>
+                    <field name="type_menu"/>
+                    <field name="detail_dish"/>
+                    <field name="day"/>
+                    <field name="type"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="menu_day_form">
+            <field name="name">Thực Đơn Ngày</field>
+            <field name="model">tigo.menu.setting</field>
+            <field name="arch" type="xml">
+                <form string="Thực Đơn Ngày">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button string="Tắt Kích Hoạt" class="oe_highlight" type="object" name="action_unactive"
+                                attrs="{'invisible': [('state','!=','active')]}"/>
+                        <button string="Kích Hoạt" class="oe_highlight" type="object" name="action_active"
+                                attrs="{'invisible': [('state','!=','unactive')]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="week"
+                                       attrs="{'invisible': [('type','=','day')], }"/>
+                                <field name="day_start" force_save="1"
+                                       attrs="{'invisible': [('type','=','day')], 'required': [('type','=','week')]}"/>
+                                <field name="day_end" force_save="1"
+                                       attrs="{'invisible': [('type','=','day')], 'required': [('type','=','week')]}"/>
+                                <field name="day"
+                                       attrs="{'invisible': [('type','=','week')], 'required': [('type','=','day')]}"/>
+                            </group>
+                            <group>
+                                <field name="type" attrs="{'readonly': [('type','in',('day','week'))]}"/>
+                                <field name="type_menu"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="number_of_people"
+                                       attrs="{'invisible': [('type_menu','!=','table')], 'required': [('type_menu','=','table')]}"/>
+                                <field name="menu_ids" widget="many2many_tags"/>
+                                <field name="detail_dish" force_save="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_menu_day_search" model="ir.ui.view">
+            <field name="name">tigo.menu.setting.search</field>
+            <field name="model">tigo.menu.setting</field>
+            <field name="arch" type="xml">
+                <search string="Ngày Hôm Nay">
+                    <filter string="Có Thể Sử Dụng" name="today" domain="[('type','=','day'),('day', '>=', context_today().strftime('%Y-%m-%d'))]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_menu_day_view" model="ir.actions.act_window">
+            <field name="name">Thực Đơn Ngày</field>
+            <field name="res_model">tigo.menu.setting</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_menu_day_search"/>
+            <field name="domain">[('type','=','day')]</field>
+            <field name="context">{'default_type': 'day', 'search_default_today': 1}</field>
+        </record>
+        <menuitem name="2. Thực Đơn Ăn Trưa"
+                  id="root_menu"
+                  parent="z_base.meal_manegent_menu"
+                  sequence="2"/>
+        <menuitem name="2.1 Thực Đơn Ngày"
+                  id="menu_day"
+                  parent="z_base.root_menu"
+                  action="action_menu_day_view"
+                  sequence="1"/>
+    </data>
+</odoo>

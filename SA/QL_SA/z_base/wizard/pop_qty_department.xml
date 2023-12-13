@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_qty_department_form_view" model="ir.ui.view">
+            <field name="name">report_qty_department_form_view</field>
+            <field name="model">popup.report.qty.department</field>
+            <field name="arch" type="xml">
+                <form string="Số suất ăn đã đăng ký theo phòng ban">
+                    <group>
+                        <group>
+                            <field name="begin"/>
+                        </group>
+                        <group>
+                            <field name="end"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="image" readonly="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_print" string="Đồng Ý" type="object" class="btn-primary"
+                                data-hotkey="q"/>
+                        <button string="Hủy" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="report_qty_department_action" model="ir.actions.act_window">
+            <field name="name">Số suất ăn đã đăng ký theo phòng ban</field>
+            <field name="res_model">popup.report.qty.department</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem name="4.1.2 Báo cáo số lượng đăng ký của phòng ban"
+                  id="menu_report_qty_department"
+                  parent="z_base.menu_report_lunch"
+                  action="report_qty_department_action"
+                  sequence="2"/>
+    </data>
+</odoo>

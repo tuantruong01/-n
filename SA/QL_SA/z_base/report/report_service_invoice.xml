@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="report_service_invoice_xlsx" model="ir.actions.report">
+        <field name="name">Báo cáo hóa đơn</field>
+        <field name="model">popup.report.service.invoice</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">report_service_invoice_xlsx</field>
+        <field name="report_file">report_service_invoice_xlsx</field>
+    </record>
+</odoo>

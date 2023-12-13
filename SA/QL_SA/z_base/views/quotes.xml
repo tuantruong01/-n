@@ -1,0 +1,124 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="quotes_service_tree">
+            <field name="name">Báo Giá</field>
+            <field name="model">tigo.service</field>
+            <field name="arch" type="xml">
+                <tree string="Báo giá">
+                    <field name="name"/>
+                    <field name="name_id"/>
+                    <field name="type"/>
+                    <field name="room_id"/>
+                    <field name="start_day"/>
+                    <field name="end_day"/>
+                    <field name="total_price"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="quotes_service_form">
+            <field name="name">Báo Giá</field>
+            <field name="model">tigo.service</field>
+            <field name="arch" type="xml">
+                <form string="Báo Giá">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button string="Đặt Phòng" class="oe_highlight" type="object" name="action_order"
+                                attrs="{'invisible': [('state','!=','quotes')]}"/>
+                        <button string="Thanh Toán" class="oe_highlight" type="object" name="action_pay"
+                                attrs="{'invisible': [('state','in',('quotes','pay','payed','cancel'))]}"/>
+                        <button string="Đã Thanh Toán" class="oe_highlight" type="object" name="action_payed"
+                                attrs="{'invisible': [('state','in',('quotes','order','payed','cancel'))]}"/>
+                        <button string="Hủy" class="oe_highlight" type="object" name="action_cancel"
+                                attrs="{'invisible': [('state','!=','order')]}"/>
+                        <button string="In hóa đơn" class="oe_highlight" type="object" name="print_bill"
+                                attrs="{'invisible': [('state','not in',('pay', 'payed'))]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="name_id" attrs="{'readonly': [('state','in',('pay','payed','cancel'))]}"/>
+                                <field name="type" attrs="{'readonly': [('state','in',('pay','payed','cancel'))]}"/>
+                                <field name="room_id" attrs="{'readonly': [('state','in',('pay','payed','cancel'))]}"/>
+                            </group>
+                            <group>
+                                <field name="start_day"
+                                       attrs="{'readonly': [('state','in',('pay','payed','cancel'))]}"/>
+                                <field name="end_day" attrs="{'readonly': [('state','in',('cancel','payed'))]}"/>
+                                <field name="time_use"/>
+                                <label for="price"/>
+                                <div class="o_row">
+                                    <field name="price" force_save="1"/>
+                                    <span>VNĐ</span>
+                                </div>
+                                <label for="deposit"/>
+                                <div class="o_row">
+                                    <field name="deposit" class="oe_inline"
+                                           attrs="{'readonly': [('state','in',('cancel','payed'))]}"/>
+                                    <span>VNĐ</span>
+                                </div>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Đặt Món Ăn">
+                                <field name="order_dish_ids" attrs="{'readonly': [('state','in',('cancel','payed'))]}">
+                                    <tree editable="bottom">
+                                        <field name="dish_id"/>
+                                        <field name="number"/>
+                                        <field name="price_unit" force_save="1"/>
+                                        <field name="price" force_save="1"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+                                <group name="note_group" col="6" class="mt-2 mt-md-0">
+                                    <group colspan="4">
+                                        <div>
+                                            Ghi Chú:
+                                            <field name="comment" class="oe-bordered-editor" nolabel="1"
+                                                   placeholder="Terms and conditions..."/>
+                                        </div>
+                                    </group>
+                                    <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                        <b>
+                                            Tổng:
+                                        </b>
+                                        <div class="o_row">
+                                            <field name="total_price" class="oe_inline" colspan="2" force_save="1"/>
+                                        </div>
+                                    </group>
+                                    <div class="oe_clear"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_quotes_search" model="ir.ui.view">
+            <field name="name">tigo.service.search</field>
+            <field name="model">tigo.service</field>
+            <field name="arch" type="xml">
+                <search string="Còn Hạn Báo Giá">
+                    <filter string="Còn Hạn" name="today_quotes"
+                            domain="[('state', '=', 'quotes'), ('end_day', '>=', context_today().strftime('%Y-%m-%d'))]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="quotes_service_view" model="ir.actions.act_window">
+            <field name="name">Báo Giá</field>
+            <field name="res_model">tigo.service</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_quotes_search"/>
+            <field name="domain">[('|'), ('state', '=', 'cancel'), ('state', '=', 'quotes')]</field>
+            <field name="context">{'search_default_today_quotes': 1}</field>
+        </record>
+        <menuitem name="3.1 Báo Giá"
+                  id="quotes_service"
+                  parent="z_base.root_service"
+                  action="quotes_service_view"
+                  sequence="1"/>
+    </data>
+</odoo>

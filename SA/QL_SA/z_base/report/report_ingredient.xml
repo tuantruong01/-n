@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="report_ingredient_xlsx" model="ir.actions.report">
+        <field name="name">Báo cáo danh sách nguyên liệu</field>
+        <field name="model">popup.report.ingredient</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">report_ingredient_xlsx</field>
+        <field name="report_file">report_ingredient_xlsx</field>
+    </record>
+</odoo>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem name="5. Cấu Hình"
+                  id="setting_root"
+                  parent="z_base.meal_manegent_menu"
+                  sequence="5"/>
+        <menuitem name="5.1 Thực Đơn Ăn Trưa"
+                  id="menu_lunch"
+                  parent="z_base.setting_root"
+                  groups="group_canteen_manager,group_canteen_chef"
+                  sequence="1"/>
+        <menuitem name="5.1.1 Thực Đơn Suất"
+                  id="menu_set"
+                  parent="z_base.menu_lunch"
+                  action="action_menu_set_models"
+                  sequence="1"/>
+        <menuitem name="5.1.2 Thực Đơn Bàn"
+                  id="menu_table"
+                  parent="z_base.menu_lunch"
+                  action="action_menu_table_models"
+                  sequence="2"/>
+        <menuitem name="5.2 Danh Mục Ăn Trưa"
+                  id="category_menu"
+                  parent="z_base.setting_root"
+                  sequence="2"
+                  groups="group_canteen_manager,group_canteen_chef"/>
+        <menuitem name="5.2.1 Tuần Trong Năm"
+                  id="week_menu"
+                  parent="z_base.category_menu"
+                  action="act_week_id"
+                  sequence="1"/>
+        <menuitem id="product_product_inherit_view_menu"
+                  name="5.2.2 Nguyên liệu"
+                  parent="z_base.category_menu"
+                  action="product.product_template_action_all"
+                  sequence="2"/>
+        <menuitem id="dish_menu"
+                  name="5.2.3 Món ăn"
+                  parent="z_base.category_menu"
+                  action="action_dish_models"
+                  sequence="3"/>
+        <menuitem name="5.2.4 Khách Ăn"
+                  id="res_customer_menu"
+                  parent="z_base.category_menu"
+                  action="action_res_customer_models"
+                  sequence="4"/>
+        <menuitem id="menu_service_menu"
+                  name="5.3 Thực Đơn Dịch Vụ Ngoài"
+                  parent="z_base.setting_root"
+                  sequence="3"
+                  groups="group_canteen_manager,group_canteen_chef"
+        />
+        <menuitem id="type_drink"
+                  name="5.3.1 Đồ uống"
+                  parent="z_base.menu_service_menu"
+                  action="action_type_food_drink_models"
+                  sequence="1"
+        />
+        <menuitem id="type_eat"
+                  name="5.3.2 Đồ ăn"
+                  parent="z_base.menu_service_menu"
+                  action="action_type_food_eat_models"
+                  sequence="2"
+        />
+        <menuitem id="room_id"
+                  name="5.4 Phòng Dịch Vụ Ngoài"
+                  parent="z_base.setting_root"
+                  sequence="4"
+                  groups="group_canteen_manager"
+        />
+        <menuitem id="room_eat"
+                  name="5.4.1 Phòng Ăn"
+                  parent="z_base.room_id"
+                  action="action_room_eat_models"
+                  sequence="2"/>
+        <menuitem id="room_sing"
+                  name="5.4.2 Phòng Hát"
+                  parent="z_base.room_id"
+                  action="action_room_sing_models"
+                  sequence="2"/>
+
+
+    </data>
+</odoo>

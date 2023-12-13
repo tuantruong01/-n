@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="report_menu_xlsx" model="ir.actions.report">
+        <field name="name">Báo cáo thực đơn theo ngày/tuần</field>
+        <field name="model">popup.report.menu</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">report_menu_xlsx</field>
+        <field name="report_file">report_menu_xlsx</field>
+    </record>
+</odoo>

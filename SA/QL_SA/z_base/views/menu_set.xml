@@ -1,0 +1,90 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="menu_set_tree_views">
+            <field name="name">Thực đơn suất</field>
+            <field name="model">tigo.menu</field>
+            <field name="arch" type="xml">
+                <tree string="Thực đơn suất">
+                    <field name="code_menu"/>
+                    <field name="name"/>
+                    <field name="type_menu"/>
+                    <field name="dish_ids" widget="many2many_tags"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="menu_set_form">
+            <field name="name">Thực đơn suất</field>
+            <field name="model">tigo.menu</field>
+            <field name="arch" type="xml">
+                <form string="Thực Đơn Suất">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code_menu"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="dish_ids" widget="many2many_tags"/>
+                            </group>
+                            <group>
+                                <field name="type_menu"/>
+                                <field name="number_of_people"
+                                       attrs="{'invisible': [('type_menu','!=','table')], 'required': [('type_menu','=','table')]}"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="menu_set_kanban" model="ir.ui.view">
+            <field name="name">Thực Đơn</field>
+            <field name="model">tigo.menu</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="img"/>
+                    <field name="id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="o_kanban_image mr-1">
+                                    <img t-att-src="kanban_image('tigo.menu', 'img', record.id.raw_value)"
+                                         alt="Thực Đơn" class="o_image_64_contain"/>
+                                </div>
+                                <div>
+                                    <field name="name"/>
+                                    <div t-if="record.type_menu.value" class="text-muted">
+                                        [<field name="type_menu"/>]
+                                    </div>
+                                    <div name="list_dish" class="mt-1">
+                                        Món:
+                                        <field name="dish_ids" widget="many2many_tags"/>
+                                    </div>
+                                    <div t-if="record.price.value" class="text-muted">
+                                        Giá:
+                                        <field name="price"/>
+                                        VNĐ
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record id="action_menu_set_models" model="ir.actions.act_window">
+            <field name="name">Thực Đơn Suất</field>
+            <field name="res_model">tigo.menu</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref=""/>
+            <field name="domain">[("type_menu", '=', 'set')]</field>
+            <field name="context">{'default_type_menu': 'set'}</field>
+        </record>
+    </data>
+</odoo>

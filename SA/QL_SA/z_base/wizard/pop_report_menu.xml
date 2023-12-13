@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_menu_form_view" model="ir.ui.view">
+            <field name="name">report_menu_form_view</field>
+            <field name="model">popup.report.menu</field>
+            <field name="arch" type="xml">
+                <form string="báo cáo thực đơn theo ngày/tuần">
+                    <group>
+                        <group>
+                            <field name="begin"/>
+                        </group>
+                        <group>
+                            <field name="end"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="image" readonly="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_print" string="Đồng Ý" type="object" class="btn-primary"
+                                data-hotkey="q"/>
+                        <button string="Hủy" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="report_menu_action" model="ir.actions.act_window">
+            <field name="name">Báo Cáo Thực Đơn Theo Ngày/Tuần</field>
+            <field name="res_model">popup.report.menu</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem name="4.2.2 Báo cáo thực đơn theo ngày/tuần"
+                  id="report_menu_menu"
+                  parent="z_base.menu_report_category"
+                  action="report_menu_action"
+                  sequence="2"/>
+    </data>
+</odoo>

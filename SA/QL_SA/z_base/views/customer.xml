@@ -1,0 +1,84 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="res_customer_tree_views">
+            <field name="name">Khách Hàng</field>
+            <field name="model">res.customer</field>
+            <field name="arch" type="xml">
+                <tree string="Khách Hàng">
+                    <field name="code_customer"/>
+                    <field name="name"/>
+                    <field name="company"/>
+                    <field name="phone"/>
+                    <field name="position"/>
+                </tree>
+            </field>
+        </record>
+        <record id="res_customer_kanban" model="ir.ui.view">
+            <field name="name">Khách Hàng</field>
+            <field name="model">res.customer</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="img"/>
+                    <field name="id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="o_kanban_image mr-1">
+                                    <img t-att-src="kanban_image('res.customer', 'img', record.id.raw_value)"
+                                         alt="Khách Hàng" class="o_image_64_contain"/>
+                                </div>
+                                <div>
+                                    <field name="name"/>
+                                    <div t-if="record.position.value" class="text-muted">
+                                        [<field name="position"/>]
+                                    </div>
+                                    <div name="phone_customer" class="mt-1">
+                                        Số Điện Thoại:
+                                        <field name="phone"
+                                               options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="res_customer_form">
+            <field name="name">Khách Hàng</field>
+            <field name="model">res.customer</field>
+            <field name="arch" type="xml">
+                <form string="Khách Hàng">
+                    <sheet>
+                        <field name="img" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code_customer"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="phone"/>
+                            </group>
+                            <group>
+                                <field name="position"/>
+                                <field name="company"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_res_customer_models" model="ir.actions.act_window">
+            <field name="name">Khách Hàng</field>
+            <field name="res_model">res.customer</field>
+            <field name="view_id" ref="res_customer_kanban"/>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[]</field>
+        </record>
+    </data>
+</odoo>

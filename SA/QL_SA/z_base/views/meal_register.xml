@@ -1,0 +1,123 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="meal_register_tree">
+            <field name="name">Đăng ký suất ăn</field>
+            <field name="model">tigo.mealregister</field>
+            <field name="arch" type="xml">
+                <tree string="Đăng ký suất ăn">
+                    <field name="name"/>
+                    <field name="register"/>
+                    <field name="code_employee"/>
+                    <field name="date"/>
+                    <field name="meal_type"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="meal_register_form">
+            <field name="name">Đăng ký suất ăn</field>
+            <field name="model">tigo.mealregister</field>
+            <field name="arch" type="xml">
+                <form string="Đăng ký suất ăn">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button string="Hủy Đăng Ký" class="oe_highlight" type="object" name="action_cancel"
+                                attrs="{'invisible': [('state','!=','done')]}"/>
+                        <button string="Đăng ký" class="oe_highlight" type="object" name="action_register"
+                                attrs="{'invisible': [('state','!=','draft')]}"/>
+                        <button string="Đưa về dự thảo" class="oe_highlight" type="object" name="action_back_draft"
+                                attrs="{'invisible': [('state','!=','cancel')]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="register"/>
+                                <field name="code_employee"/>
+                                <field name="meal_type" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="number" attrs="{'invisible': [('meal_type','!=','table')],
+                                                            'readonly': [('state', '!=', 'draft')],
+                                                            'required': [('meal_type','=','table')]}
+                                                             "/>
+                                <field name="menu_id"
+                                       attrs="{'invisible': [('meal_type','!=','table')], 'readonly': [('state', '!=', 'draft')], 'required': [('meal_type','=','table')]}"/>
+                                <field name="detail_dish"
+                                       attrs="{'invisible': [('meal_type','!=','table')]}"
+                                       force_save="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Đăng ký cho nhân viên">
+                                <field name="employee_meal_register_ids"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="registration_id" invisible="1"/>
+                                        <field name="employee_id"/>
+                                        <field name="code"/>
+                                        <field name="number_phone"/>
+                                        <field name="department_id"/>
+                                        <field name="menu_id" context="{'get_date': parent.date, 'get_meal_type': parent.meal_type}"
+                                               attrs="{'column_invisible': [('parent.meal_type', '=', 'table')], 'required': [('parent.meal_type', '=', 'set')]}"/>
+                                        <field name="note"/>
+                                        <field name="person"
+                                               attrs="{'column_invisible': [('parent.meal_type', '!=', 'table')]}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Đăng ký cho khách hàng">
+                                <field name="client_meal_register_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="registration_id" invisible="1"/>
+                                        <field name="partner_id"/>
+                                        <field name="phone_client"/>
+                                        <field name="company"/>
+                                        <field name="position"/>
+                                        <field name="menu_id" context="{'get_date': parent.date, 'get_meal_type': parent.meal_type}"
+                                               attrs="{'column_invisible': [('parent.meal_type', '=', 'table')], 'required': [('parent.meal_type', '=', 'set')]}"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_tigo_mealregister_search" model="ir.ui.view">
+            <field name="name">tigo.mealregister.search</field>
+            <field name="model">tigo.mealregister</field>
+            <field name="arch" type="xml">
+                <search string="Ngày Hôm Nay">
+                    <filter string="Ngày Hôm Nay" name="today"
+                            domain="[('date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="meal_register_view" model="ir.actions.act_window">
+            <field name="name">Đăng ký suất ăn</field>
+            <field name="res_model">tigo.mealregister</field>
+            <field name="view_id" ref="meal_register_tree"/>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_today': 1}</field>
+        </record>
+        <menuitem name="Quản Lý Suất Ăn"
+                  id="meal_manegent_menu"
+                  web_icon="D:\QLSA\QLSA\QL_SA\z_base\static\description\icon.png"
+                  sequence="1"/>
+        <menuitem name="1. Quản Lý Ăn Trưa"
+                  id="root_meal_menu"
+                  parent="z_base.meal_manegent_menu"
+                  sequence="1"/>
+        <menuitem name="1.1 Đăng ký ăn trưa"
+                  id="meal_register_menu"
+                  parent="z_base.root_meal_menu"
+                  action="meal_register_view"
+                  sequence="1"/>
+    </data>
+</odoo>

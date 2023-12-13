@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="print_bill_xlsx" model="ir.actions.report">
+        <field name="name">In hóa đơn</field>
+        <field name="model">tigo.service</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">print_bill_xlsx</field>
+        <field name="report_file">print_bill_xlsx</field>
+    </record>
+</odoo>

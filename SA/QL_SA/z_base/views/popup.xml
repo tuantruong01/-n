@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="popup_cmt_view" model="ir.ui.view">
+            <field name="name">Popup Cmt</field>
+            <field name="model">popup.cmt</field>
+            <field name="arch" type="xml">
+                <form string="Lý Do Từ Chối">
+                    <group>
+                        <field name="comment"/>
+                    </group>
+                    <footer>
+                        <button name="popup_cmt" string="Đồng Ý" type="object" class="btn-primary"
+                                data-hotkey="q"/>
+                        <button string="Hủy" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="popup_cmt_menu" model="ir.actions.act_window">
+            <field name="name">Popup Cmt</field>
+            <field name="res_model">popup.cmt</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

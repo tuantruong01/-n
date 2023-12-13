@@ -1,0 +1,98 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="order_service_tree">
+            <field name="name">Đặt Phòng</field>
+            <field name="model">tigo.service</field>
+            <field name="arch" type="xml">
+                <tree string="Đặt Phòng">
+                    <field name="name"/>
+                    <field name="name_id"/>
+                    <field name="type"/>
+                    <field name="room_id"/>
+                    <field name="start_day"/>
+                    <field name="end_day"/>
+                    <field name="total_price"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="order_service_form">
+            <field name="name">Đặt Phòng</field>
+            <field name="model">tigo.service</field>
+            <field name="arch" type="xml">
+                <form string="Đặt Phòng">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button string="Đặt Phòng" class="oe_highlight" type="object" name="action_order"
+                                attrs="{'invisible': [('state','!=','quotes')]}"/>
+                        <button string="Thanh Toán" class="oe_highlight" type="object" name="action_pay"
+                                attrs="{'invisible': [('state','in',('quotes','pay','payed','cancel'))]}"/>
+                        <button string="Đã Thanh Toán" class="oe_highlight" type="object" name="action_payed"
+                                attrs="{'invisible': [('state','in',('quotes','order','payed','cancel'))]}"/>
+                        <button string="Hủy" class="oe_highlight" type="object" name="action_cancel"
+                                attrs="{'invisible': [('state','!=','order')]}"/>
+                        <button string="In hóa đơn" class="oe_highlight" type="object" name="print_bill"
+                                attrs="{'invisible': [('state','not in',('pay', 'payed'))]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="name_id" attrs="{'readonly': [('state','in',('pay','payed'))]}"/>
+                                <field name="type" attrs="{'readonly': [('state','in',('pay','payed'))]}"/>
+                                <field name="room_id" attrs="{'readonly': [('state','in',('pay','payed'))]}"/>
+                            </group>
+                            <group>
+                                <field name="start_day" attrs="{'readonly': [('state','in',('pay','payed'))]}"/>
+                                <field name="end_day" attrs="{'readonly': [('state','=','payed')]}"/>
+                                <field name="time_use" attrs="{'invisible': [('type','=','eat')]}"/>
+                                <field name="price" force_save="1"/>
+                                <field name="deposit" attrs="{'readonly': [('state','in',('pay','payed'))]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Đặt Món Ăn">
+                                <field name="order_dish_ids">
+                                    <tree editable="bottom">
+                                        <field name="dish_id"/>
+                                        <field name="number"/>
+                                        <field name="price_unit"/>
+                                        <field name="price" force_save="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_order_service_search" model="ir.ui.view">
+            <field name="name">order.service.search</field>
+            <field name="model">tigo.service</field>
+            <field name="arch" type="xml">
+                <search string="Hôm Nay">
+                    <filter string="Còn Hạn" name="order_today"
+                            domain="[('state', '=', 'order'), ('end_day', '>=', context_today().strftime('%Y-%m-%d'))]"/>
+                </search>
+            </field>
+        </record>
+        <record id="order_service_view" model="ir.actions.act_window">
+            <field name="name">Đặt Phòng</field>
+            <field name="res_model">tigo.service</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_order_service_search"/>
+            <field name="domain">[('state', '=', 'order')]</field>
+            <field name="context">{'search_default_order_today': 1}</field>
+        </record>
+        <menuitem name="3. Dịch Vụ Ngoài"
+                  id="root_service"
+                  parent="z_base.meal_manegent_menu"
+                  sequence="3"/>
+        <menuitem name="3.2 Đặt Phòng"
+                  id="order_service"
+                  parent="z_base.root_service"
+                  action="order_service_view"
+                  sequence="2"/>
+    </data>
+</odoo>

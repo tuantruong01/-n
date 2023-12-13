@@ -1,0 +1,102 @@
+<odoo>
+    <data>
+        <!--        Phòng Ăn-->
+        <record model="ir.ui.view" id="tigo_room_eat_tree">
+            <field name="name">Phòng Ăn</field>
+            <field name="model">tigo.room</field>
+            <field name="arch" type="xml">
+                <tree string="Phòng Ăn">
+                    <field name="code_room"/>
+                    <field name="name"/>
+                    <field name="type_room"/>
+                    <field name="sate"/>
+                    <field name="level"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="room_eat_form">
+            <field name="name">Phòng</field>
+            <field name="model">tigo.room</field>
+            <field name="arch" type="xml">
+                <form string="Phòng Ăn">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="company_id" invisible="1"/>
+                                <field name="code_room"/>
+                                <field name="name"/>
+                                <label for="price"/>
+                                <div class="o_row">
+                                    <field name="price" class="oe_inline"/>
+                                    <span>VNĐ</span>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="type_room"/>
+                                <field name="level"/>
+                                <field name="sate"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_room_eat_models" model="ir.actions.act_window">
+            <field name="name">Phòng Ăn</field>
+            <field name="res_model">tigo.room</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type_room', '=','eat')]</field>
+            <field name="context">{'default_type_room': 'eat'}</field>
+        </record>
+
+
+        <!--        Phòng Hát-->
+        <record model="ir.ui.view" id="tigo_room_sing_tree">
+            <field name="name">Phòng Hát</field>
+            <field name="model">tigo.room</field>
+            <field name="arch" type="xml">
+                <tree string="Phòng Hát">
+                    <field name="code_room"/>
+                    <field name="name"/>
+                    <field name="type_room"/>
+                    <field name="sate"/>
+                    <field name="level"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="room_sing_form">
+            <field name="name">Phòng Hát</field>
+            <field name="model">tigo.room</field>
+            <field name="arch" type="xml">
+                <form string="Phòng Hát">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code_room"/>
+                                <field name="name"/>
+                                <label for="price"/>
+                                <div class="o_row">
+                                    <field name="price" class="oe_inline"/>
+                                    <span>VNĐ</span>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="type_room"/>
+                                <field name="level"/>
+                                <field name="sate"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_room_sing_models" model="ir.actions.act_window">
+            <field name="name">Phòng Hát</field>
+            <field name="res_model">tigo.room</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type_room', '=','sing')]</field>
+            <field name="context">{'default_type_room': 'sing'}</field>
+        </record>
+
+    </data>
+</odoo>

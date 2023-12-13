@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_service_invoice_form_view" model="ir.ui.view">
+            <field name="name">report_service_invoice_form_view</field>
+            <field name="model">popup.report.service.invoice</field>
+            <field name="arch" type="xml">
+                <form string="Báo Cáo Hóa Đơn">
+                    <group>
+                        <group>
+                            <field name="begin"/>
+                        </group>
+                        <group>
+                            <field name="end"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="image" readonly="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_print" string="Đồng Ý" type="object" class="btn-primary"
+                                data-hotkey="q"/>
+                        <button string="Hủy" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="report_service_invoice_action" model="ir.actions.act_window">
+            <field name="name">Báo Cáo Hóa Đơn</field>
+            <field name="res_model">popup.report.service.invoice</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem name="4.3 Báo cáo dịch vụ"
+                  id="report_service"
+                  parent="z_base.menu_report"
+                  sequence="2"/>
+        <menuitem name="4.3.1 Báo cáo hóa đơn"
+                  id="report_service_invoice"
+                  parent="z_base.report_service"
+                  action="report_service_invoice_action"
+                  sequence="1"/>
+
+    </data>
+</odoo>
