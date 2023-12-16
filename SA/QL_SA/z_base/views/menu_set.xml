@@ -1,10 +1,10 @@
 <odoo>
     <data>
         <record model="ir.ui.view" id="menu_set_tree_views">
-            <field name="name">Thực đơn suất</field>
+            <field name="name">Thực Đơn </field>
             <field name="model">tigo.menu</field>
             <field name="arch" type="xml">
-                <tree string="Thực đơn suất">
+                <tree string="Thực Đơn">
                     <field name="code_menu"/>
                     <field name="name"/>
                     <field name="type_menu"/>
@@ -14,11 +14,12 @@
             </field>
         </record>
         <record model="ir.ui.view" id="menu_set_form">
-            <field name="name">Thực đơn suất</field>
+            <field name="name">Thực Đơn</field>
             <field name="model">tigo.menu</field>
             <field name="arch" type="xml">
-                <form string="Thực Đơn Suất">
+                <form string="Thực Đơn">
                     <sheet>
+                        <field name="img" widget="image" class="oe_avatar"/>
                         <div class="oe_title">
                             <label for="name"/>
                             <h1>
@@ -79,12 +80,11 @@
             </field>
         </record>
         <record id="action_menu_set_models" model="ir.actions.act_window">
-            <field name="name">Thực Đơn Suất</field>
+            <field name="name">Thực Đơn</field>
             <field name="res_model">tigo.menu</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="view_id" ref=""/>
-            <field name="domain">[("type_menu", '=', 'set')]</field>
-            <field name="context">{'default_type_menu': 'set'}</field>
+            <field name="domain">[]</field>
         </record>
     </data>
 </odoo>

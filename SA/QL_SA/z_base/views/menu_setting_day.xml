@@ -1,8 +1,7 @@
 <odoo>
     <data>
-        <!--Cấu Hình Thực Đơn Theo Ngày-->
         <record model="ir.ui.view" id="menu_day_tree">
-            <field name="name">Thực Đơn Ngày</field>
+            <field name="name">Thực Đơn Ngày/Tuần</field>
             <field name="model">tigo.menu.setting</field>
             <field name="arch" type="xml">
                 <tree string="Thực Đơn Ngày">
@@ -17,7 +16,7 @@
             </field>
         </record>
         <record model="ir.ui.view" id="menu_day_form">
-            <field name="name">Thực Đơn Ngày</field>
+            <field name="name">Thực Đơn Ngày/Tuần</field>
             <field name="model">tigo.menu.setting</field>
             <field name="arch" type="xml">
                 <form string="Thực Đơn Ngày">
@@ -42,7 +41,7 @@
                                        attrs="{'invisible': [('type','=','week')], 'required': [('type','=','day')]}"/>
                             </group>
                             <group>
-                                <field name="type" attrs="{'readonly': [('type','in',('day','week'))]}"/>
+                                <field name="type"/>
                                 <field name="type_menu"/>
                                 <field name="company_id" invisible="1"/>
                                 <field name="number_of_people"
@@ -66,18 +65,17 @@
         </record>
 
         <record id="action_menu_day_view" model="ir.actions.act_window">
-            <field name="name">Thực Đơn Ngày</field>
+            <field name="name">Thực Đơn Ngày/Tuần</field>
             <field name="res_model">tigo.menu.setting</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="view_menu_day_search"/>
-            <field name="domain">[('type','=','day')]</field>
-            <field name="context">{'default_type': 'day', 'search_default_today': 1}</field>
+            <field name="domain">[]</field>
         </record>
-        <menuitem name="2. Thực Đơn Ăn Trưa"
+        <menuitem name="2. Quản Lý Thực Đơn"
                   id="root_menu"
                   parent="z_base.meal_manegent_menu"
                   sequence="2"/>
-        <menuitem name="2.1 Thực Đơn Ngày"
+        <menuitem name="2.1 Thực Đơn Ngày/Tuần"
                   id="menu_day"
                   parent="z_base.root_menu"
                   action="action_menu_day_view"

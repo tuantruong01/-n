@@ -110,7 +110,7 @@
                   id="meal_manegent_menu"
                   web_icon="D:\QLSA\QLSA\QL_SA\z_base\static\description\icon.png"
                   sequence="1"/>
-        <menuitem name="1. Quản Lý Ăn Trưa"
+        <menuitem name="1. Quản Lý Đăng Ký Ăn Trưa"
                   id="root_meal_menu"
                   parent="z_base.meal_manegent_menu"
                   sequence="1"/>

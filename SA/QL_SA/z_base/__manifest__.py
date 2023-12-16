@@ -18,14 +18,12 @@
         'views/hr_employee_inherit_view.xml',
 
         'views/menu_setting_day.xml',
-        'views/menu_setting_week.xml',
 
         'views/service.xml',
         'views/quotes.xml',
         'views/pay_view.xml',
 
         'views/menu_set.xml',
-        'views/menu_table.xml',
         'views/customer.xml',
         'views/week.xml',
         'views/dish.xml',
